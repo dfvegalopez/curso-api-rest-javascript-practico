@@ -163,11 +163,10 @@ function createMovies(element,
     items.forEach(item => {
         const itemContainer = document.createElement('div');
         itemContainer.classList.add('movie-container');
-        itemContainer.addEventListener('click', () => {
+        const itemImg = document.createElement('img');
+        itemImg.addEventListener('click', () => {
             location.hash = `#movie=${item.id}`;
         });
-    
-        const itemImg = document.createElement('img');
         itemImg.classList.add('movie-img');
         itemImg.setAttribute('alt', item.title);
         if (lazyLoad) itemImg.setAttribute('data-img', `${MOVIE_URL_BASE_W500}${item.poster_path}`);
@@ -177,9 +176,16 @@ function createMovies(element,
             itemImg.setAttribute('src','https://static.platzi.com/static/images/error/img404.png');
         });
 
+        const movieBtn = document.createElement('button');
+        movieBtn.classList.add('movie-btn');
+        movieBtn.addEventListener('click', () => {
+            movieBtn.classList.toggle('movie-btn--liked');
+        });
+
         itemContainer.classList.add('movie-img');
     
         itemContainer.appendChild(itemImg);
+        itemContainer.appendChild(movieBtn);
         element.appendChild(itemContainer);
 
 
