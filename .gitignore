@@ -104,4 +104,4 @@ dist
 .tern-port
 
 #ignore secret.js (API)
-src/secret.js
+#src/secret.js
