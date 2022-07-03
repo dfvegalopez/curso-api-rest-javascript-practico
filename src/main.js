@@ -1,3 +1,22 @@
+//Data
+function likeMovie(movie) {
+    let localStorageLikedMovies = likedMoviesList();
+    if (localStorageLikedMovies[movie.id]) {
+        localStorageLikedMovies[movie.id] = undefined;
+    } else {
+        localStorageLikedMovies[movie.id] = movie;
+    }
+    let localStorageLikedMoviedString = JSON.stringify(localStorageLikedMovies);
+    localStorage.setItem('liked_movies', localStorageLikedMoviedString);
+    getLikedMovies();
+}
+
+function likedMoviesList() {
+    const item = JSON.parse(localStorage.getItem('liked_movies'));
+    let movies = item ? item : {}
+    return movies
+}
+
 const api = axios.create({
     baseURL: 'https://api.themoviedb.org/3',
     params: {
@@ -86,7 +105,6 @@ async function getMoviesBySearchAxios(query) {
 }
 
 function getPaginatedMoviesBySearch(query) {
-    console.log(query);
     return async function() {
         const {scrollTop,  
                scrollHeight, 
@@ -152,6 +170,12 @@ async function getRelatedMovieByIdAxios(id) {
     createMovies(relatedMoviesContainer,relatedMovies, {lazyLoad: true, cleanResult: true});
 }
 
+function getLikedMovies() {
+    const likedMovies = likedMoviesList();
+    const likedMoviesArray = Object.values(likedMovies);
+    createMovies(likedMoviesListArticle, likedMoviesArray, {lazyLoad: true, cleanResult: true})
+}
+
 //Utils o Helpers
 function createMovies(element, 
     items, 
@@ -178,8 +202,10 @@ function createMovies(element,
 
         const movieBtn = document.createElement('button');
         movieBtn.classList.add('movie-btn');
+        if (likedMoviesList()[item.id]) movieBtn.classList.add('movie-btn--liked');
         movieBtn.addEventListener('click', () => {
             movieBtn.classList.toggle('movie-btn--liked');
+            likeMovie(item);
         });
 
         itemContainer.classList.add('movie-img');

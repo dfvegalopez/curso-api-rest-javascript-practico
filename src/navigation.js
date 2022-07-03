@@ -5,7 +5,6 @@ let infiniteScroll;
 window.addEventListener('hashchange', navigatior, false);
 window.addEventListener('DOMContentLoaded', navigatior, false);
 window.addEventListener('scroll', infiniteScroll, false);
-
 searchFormBtn.addEventListener('click', () => {
     location.hash = `#search=${searchFormInput.value}`;
 })
@@ -62,9 +61,11 @@ function homePage() {
     categoriesPreviewSection.classList.remove('inactive');
     genericSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
+    likedMoviesSection.classList.remove('inactive');
 
     getTrendingMoviesPreviewAxios();
     getCategoriesMoviesPreviewAxios();
+    getLikedMovies();
 }
 
 function categoriesPage() {
@@ -80,6 +81,7 @@ function categoriesPage() {
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
+    likedMoviesSection.classList.add('inactive');
     movieDetailSection.classList.add('inactive');
 
     const [_, categoryData] = location.hash.split('=');
@@ -103,6 +105,7 @@ function movieDetailsPage() {
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
     movieDetailSection.classList.remove('inactive');
 
     const [_, id] = location.hash.split('=');
@@ -124,6 +127,7 @@ function searchPage() {
     categoriesPreviewSection.classList.add('inactive');
     genericSection.classList.remove('inactive');
     movieDetailSection.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
 
     const [_, query] = location.hash.split('=');
     getMoviesBySearchAxios(query);
@@ -139,6 +143,7 @@ function trendsPage() {
     headerTitle.classList.add('inactive');
     headerCategoryTitle.classList.remove('inactive');
     searchForm.classList.add('inactive');
+    likedMoviesSection.classList.add('inactive');
 
     trendingPreviewSection.classList.add('inactive');
     categoriesPreviewSection.classList.add('inactive');
